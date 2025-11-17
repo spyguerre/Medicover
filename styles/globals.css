@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  
+  .layout {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 200px;
+    padding: 20px;
+    background: #f2f2f2;
+    border-right: 1px solid #ddd;
+  }
+  
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
