@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Sidebar() {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-
   const [filter, setFilter] = useState("");
+
+  // Slider state
+  const [sliderValue, setSliderValue] = useState(50);
 
   const toggleCheckbox = (key: string) => {
     setCheckedItems((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -18,27 +20,26 @@ export default function Sidebar() {
   );
 
   const handleConfirm = () => {
-    console.log("Confirmed items:", checkedItems);
+    console.log("Confirmed items:", checkedItems, "Slider:", sliderValue);
     alert("Selection confirmed!");
   };
 
+  // Load profession list from public/professions.txt
   useEffect(() => {
-    // Fetch professions from public/professions.txt
     fetch("/professions.txt")
-    .then((res) => res.text())
-    .then((text) => {
-      const lines = text
-      .split("\n")
-      .map((l) => l.trim())
-      .filter((l) => l.length > 0);
+      .then((res) => res.text())
+      .then((text) => {
+        const lines = text
+          .split("\n")
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0);
 
-      // Build checkbox state dynamically
-      const initialState: Record<string, boolean> = {};
-      lines.forEach((l) => initialState[l] = false);
+        const initialState: Record<string, boolean> = {};
+        lines.forEach((l) => (initialState[l] = false));
 
-      setCheckedItems(initialState);
-    })
-    .catch((err) => console.log("Failed to load professions.txt:", err));
+        setCheckedItems(initialState);
+      })
+      .catch((err) => console.log("Failed to load professions.txt:", err));
   }, []);
 
   return (
@@ -53,7 +54,7 @@ export default function Sidebar() {
       }}
     >
       {/* Top section: Logo + description */}
-      <div style={{ padding: 16 }}>
+      <div style={{ padding: 16, borderBottom: "1px solid #ccc" }}>
         <Link
           href="/"
           style={{
@@ -69,18 +70,13 @@ export default function Sidebar() {
           Medicover
         </Link>
         <div style={{ fontSize: 14, color: "#555", marginTop: 4 }}>
-          Your healthcare dashboard
+          Check your country's healthcare coverage!
         </div>
       </div>
 
-      {/* Middle section: Filterable checkbox list */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "0 16px" }}>
+      <div style={{ margin: 16, borderBottom: "1px solid #ccc" }}>
         {/* Menu title */}
-        <div
-          style={{ fontWeight: "bold", marginBottom: 8, cursor: "default" }}
-        >
-          Professions
-        </div>
+        <div style={{ fontWeight: "bold", marginBottom: 8 }}>Professions</div>
 
         {/* Filter textbox */}
         <input
@@ -95,9 +91,13 @@ export default function Sidebar() {
             boxSizing: "border-box",
           }}
         />
+      </div>
+
+      {/* Middle scrollable section */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "0 10px", maxHeight: "50vh" }}>
 
         {/* Checkbox list */}
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <ul style={{ listStyle: "none", padding: 0, margin: "0px 0 20px 0" }}>
           {filteredOptions.map((key) => (
             <li key={key} style={{ marginBottom: 4 }}>
               <label>
@@ -119,8 +119,25 @@ export default function Sidebar() {
         </ul>
       </div>
 
-      {/* Bottom section: Confirm button */}
-      <div style={{ padding: 16, borderTop: "1px solid #ccc" }}>
+      <div style={{ margin: 16, borderTop: "1px solid #ccc" }}>
+        {/* --- NEW SLIDER SECTION --- */}
+        <div style={{ marginTop: 20 }}>
+          <div style={{ fontWeight: "bold" }}>
+            Cluster range: {sliderValue}
+          </div>
+
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={sliderValue}
+            onChange={(e) => setSliderValue(Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </div>
+      </div>
+      
+      <div style={{ margin: 0, borderTop: "1px solid #ccc" }}>
         <button
           onClick={handleConfirm}
           style={{
@@ -132,10 +149,21 @@ export default function Sidebar() {
             border: "none",
             borderRadius: 4,
             cursor: "pointer",
+            marginTop: "20px",
           }}
         >
           Confirm
         </button>
+      </div>
+
+      {/* Bottom section */}
+      <div style={{ padding: 0, borderTop: "1px solid #ccc" }}>
+        {/* --- NEW LABELS BELOW CONFIRM BUTTON --- */}
+        <div style={{ marginTop: 12, fontSize: 12, color: "#555" }}>
+          <div>Biggest Coverage Area: tbd</div>
+          <div>Median Coverage Area: tbd</div>
+          <div>Mean Coverage Area: tbd</div>
+        </div>
       </div>
     </nav>
   );
