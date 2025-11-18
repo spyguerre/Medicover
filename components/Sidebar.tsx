@@ -1,21 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Sidebar() {
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({
-    option1: false,
-    option2: false,
-    option3: false,
-    option4: false,
-    option5: false,
-    option6: false,
-    option7: false,
-    option8: false,
-    option9: false,
-    option10: false,
-  });
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
   const [filter, setFilter] = useState("");
 
@@ -32,6 +21,25 @@ export default function Sidebar() {
     console.log("Confirmed items:", checkedItems);
     alert("Selection confirmed!");
   };
+
+  useEffect(() => {
+    // Fetch professions from public/professions.txt
+    fetch("/professions.txt")
+    .then((res) => res.text())
+    .then((text) => {
+      const lines = text
+      .split("\n")
+      .map((l) => l.trim())
+      .filter((l) => l.length > 0);
+
+      // Build checkbox state dynamically
+      const initialState: Record<string, boolean> = {};
+      lines.forEach((l) => initialState[l] = false);
+
+      setCheckedItems(initialState);
+    })
+    .catch((err) => console.log("Failed to load professions.txt:", err));
+  }, []);
 
   return (
     <nav
