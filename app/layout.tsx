@@ -3,8 +3,7 @@ import Sidebar from "../components/Sidebar";
 import { ReactNode } from "react";
 
 export const metadata = {
-  title: "Simple Layout",
-  description: "Left menu with empty content area",
+  title: "Medicover",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
