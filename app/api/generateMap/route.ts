@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     // Command to run
     const cmd = `. .venv/bin/activate && python3 backend/compute_regions.py --db data_extraction/GrandEst.db --regions data/regions.zip --metier `
     + professions.join(" ") +
-    ` --out data/voronoi_clipped.gpkg && mkdir public/generatedImages && mv data/voronoi_plot.png public/generatedImages/` + professions.join(",") + `.png`;
+    ` --out data/voronoi_clipped.gpkg && mkdir -p public/generatedImages && mv data/voronoi_plot.png public/generatedImages/` + professions.join(",") + `.png`;
 
     // Execute on server
     const { stdout, stderr } = await execPromise(cmd);
