@@ -296,22 +296,22 @@ def plot_voronoi_result(regions_gdf, voronoi_gdf, clipped_gdf, output_image=None
     Plot regions, voronoi cells and clipped results.
     Saves to output_image if provided.
     """
-    fig, ax = plt.subplots(figsize=(100, 100))
+    fig, ax = plt.subplots(figsize=(150, 150))
 
     # Base layer: regions
     regions_gdf.boundary.plot(ax=ax, color="black", linewidth=1.0, alpha=0.7)
     regions_gdf.plot(ax=ax, color="white", edgecolor="black", alpha=0.3)
 
     # Voronoi polygons (before clipping)
-    voronoi_gdf.plot(ax=ax, facecolor="none", edgecolor="blue", linewidth=1.0, alpha=0.8)
+    voronoi_gdf.plot(ax=ax, facecolor="none", edgecolor="blue", linewidth=0.3, alpha=0.8)
 
     # Clipped Voronoi (final desired shapes)
-    clipped_gdf.plot(ax=ax, cmap="tab20", alpha=0.65, edgecolor="black", linewidth=1.0)
+    clipped_gdf.plot(ax=ax, cmap="tab20", alpha=0.65, edgecolor="black", linewidth=0.30)
 
     # Practitioner points
     pts = voronoi_gdf.copy()
     pts["geometry"] = pts.geometry.centroid
-    pts.plot(ax=ax, color="red", markersize=0.1, label="Praticiens")
+    pts.plot(ax=ax, color="red", markersize=0.03, label="Praticiens")
 
     ax.set_title("Voronoi Regions Clipped to Map", fontsize=16)
     ax.set_xlabel("X")
