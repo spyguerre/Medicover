@@ -2,20 +2,26 @@
 
 import { useState, useEffect } from "react";
 
+export type Profession = {
+    libelle: string,
+    selected: boolean
+};
+export type Professions = Record<string, Profession>; // Dictionary mapping profession ids to its lib and selected bool
+
 export default function ProfessionSelector(
     {checkedItems, setCheckedItems}: {
-        checkedItems: Record<string, boolean>,
-        setCheckedItems: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+        checkedItems: Professions,
+        setCheckedItems: React.Dispatch<React.SetStateAction<Professions>>
     }) {
     const [filter, setFilter] = useState("");
     
     // Filter options based on textbox input
     const filteredOptions = Object.keys(checkedItems).filter((key) =>
-        key.toLowerCase().includes(filter.toLowerCase())
+        checkedItems[key].libelle.toLowerCase().includes(filter.toLowerCase())
     );
 
     const toggleCheckbox = (key: string) => {
-        setCheckedItems((prev) => ({ ...prev, [key]: !prev[key] }));
+        setCheckedItems((prev) => ({ ...prev, [key]: {...prev[key], selected: !prev[key].selected }}));
     };
 
     // Load profession list from public/professions.txt
@@ -28,8 +34,14 @@ export default function ProfessionSelector(
             .map((l) => l.trim())
             .filter((l) => l.length > 0);
     
-            const initialState: Record<string, boolean> = {};
-            lines.forEach((l) => (initialState[l] = false));
+            const initialState: Professions = {};
+            lines.forEach((l) => {
+                const [code, libelle] = l.split(",");
+                initialState[code] = {
+                    libelle: libelle,
+                    selected: false
+                } as Profession;
+            });
     
             setCheckedItems(initialState);
         })
@@ -67,10 +79,10 @@ export default function ProfessionSelector(
                 <label>
                     <input
                     type="checkbox"
-                    checked={checkedItems[key]}
+                    checked={checkedItems[key].selected}
                     onChange={() => toggleCheckbox(key)}
                     />{" "}
-                    {key}
+                    {checkedItems[key].libelle}
                 </label>
                 </li>
             ))}

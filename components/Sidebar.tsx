@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
-import ProfessionSelector from "./sidebar/ProfessionCheckboxes";
+import ProfessionSelector, { Professions } from "./sidebar/ProfessionCheckboxes";
 import ClusterSlider from "./sidebar/ClusterSlider";
 import ConfirmButton from "./sidebar/ConfirmButton";
 import Stats from "./sidebar/Stats";
@@ -10,7 +10,7 @@ import SidebarButton from "./sidebar/SidebarButton";
 
 export default function Sidebar() {
   // Slider state
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  const [checkedItems, setCheckedItems] = useState<Professions>({});
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
   const [sliderValue, setSliderValue] = useState(50); // The value input by the user, from 0 to 100
   const [clusterValue, setClusterValue] = useState<number>(0); // The computed cluster value with input slider value, from 0 to 10km
