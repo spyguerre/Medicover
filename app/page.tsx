@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 export default function Page() {
-  redirect("/testpage"); // immediately redirects to /testpage
+  redirect("/view"); // immediately redirects to /view
 
   return "";
 }

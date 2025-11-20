@@ -1,40 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Logo from "./Logo";
+import ProfessionSelector from "./sidebar/ProfessionCheckboxes";
+import ClusterSlider from "./sidebar/ClusterSlider";
+import ConfirmButton from "./sidebar/ConfirmButton";
+import Stats from "./sidebar/Stats";
+import SidebarButton from "./sidebar/SidebarButton";
 
 export default function Sidebar() {
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({
-    option1: false,
-    option2: false,
-    option3: false,
-    option4: false,
-    option5: false,
-    option6: false,
-    option7: false,
-    option8: false,
-    option9: false,
-    option10: false,
-  });
-
-  const [filter, setFilter] = useState("");
-
-  const toggleCheckbox = (key: string) => {
-    setCheckedItems((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  // Filter options based on textbox input
-  const filteredOptions = Object.keys(checkedItems).filter((key) =>
-    key.toLowerCase().includes(filter.toLowerCase())
-  );
+  // Slider state
+  const [sliderValue, setSliderValue] = useState(50);
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  const [showSidebar, setShowSidebar] = useState<boolean>(true);
 
   const handleConfirm = () => {
-    console.log("Confirmed items:", checkedItems);
+    console.log("Confirmed items:", checkedItems, "Slider:", sliderValue);
     alert("Selection confirmed!");
   };
 
   return (
-    <nav
+      showSidebar &&
+      <nav
       className="sidebar"
       style={{
         width: 250,
@@ -44,91 +31,42 @@ export default function Sidebar() {
         flexDirection: "column",
       }}
     >
-      {/* Top section: Logo + description */}
-      <div style={{ padding: 16 }}>
-        <Link
-          href="/"
-          style={{
-            display: "inline-block",
-            fontWeight: "bold",
-            fontSize: 24,
-            color: "#1D4ED8",
-            textDecoration: "none",
-            cursor: "pointer",
-            userSelect: "none",
-          }}
-        >
-          Medicover
-        </Link>
-        <div style={{ fontSize: 14, color: "#555", marginTop: 4 }}>
-          Your healthcare dashboard
+      
+      <div style={{display: "flex", padding: "16px 0 16px 0", flexDirection: "row", borderBottom: "1px solid #ccc"}}>
+        <SidebarButton showSidebar={showSidebar} setShowSidebar={setShowSidebar}/>
+        <div style={{ display: "flex", flexDirection: "column", marginLeft: 50 }}>
+          <Logo />
+          <div style={{ fontSize: 14, color: "#555", marginTop: 4 }}>
+          Check your country's healthcare coverage!
+          </div>
         </div>
+        
       </div>
+  
+      <ProfessionSelector
+        checkedItems={checkedItems}
+        setCheckedItems={setCheckedItems}
+      />
+  
+      <div style={{ marginTop: "auto", padding: 16, borderTop: "1px solid #ccc" }}>
 
-      {/* Middle section: Filterable checkbox list */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "0 16px" }}>
-        {/* Menu title */}
-        <div
-          style={{ fontWeight: "bold", marginBottom: 8, cursor: "default" }}
-        >
-          Professions
+        <ClusterSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
+  
+        <ConfirmButton handleConfirm={handleConfirm} />
+  
+        <div style={{ marginTop: 12 }}>
+          <Stats biggestArea={0} medianArea={0} meanArea={0} />
         </div>
-
-        {/* Filter textbox */}
-        <input
-          type="text"
-          placeholder="Filter options..."
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "4px 8px",
-            marginBottom: 8,
-            boxSizing: "border-box",
-          }}
-        />
-
-        {/* Checkbox list */}
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {filteredOptions.map((key) => (
-            <li key={key} style={{ marginBottom: 4 }}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={checkedItems[key]}
-                  onChange={() => toggleCheckbox(key)}
-                />{" "}
-                {key}
-              </label>
-            </li>
-          ))}
-
-          {filteredOptions.length === 0 && (
-            <li style={{ fontStyle: "italic", color: "#999" }}>
-              No matching options
-            </li>
-          )}
-        </ul>
-      </div>
-
-      {/* Bottom section: Confirm button */}
-      <div style={{ padding: 16, borderTop: "1px solid #ccc" }}>
-        <button
-          onClick={handleConfirm}
-          style={{
-            width: "100%",
-            padding: "8px 0",
-            backgroundColor: "#1D4ED8",
-            color: "white",
-            fontWeight: "bold",
-            border: "none",
-            borderRadius: 4,
-            cursor: "pointer",
-          }}
-        >
-          Confirm
-        </button>
       </div>
     </nav>
-  );
+    || !showSidebar &&
+    <nav>
+      <div style={{ margin: 16 }}>
+        <SidebarButton
+          showSidebar={showSidebar}
+          setShowSidebar={setShowSidebar}
+        />
+      </div>
+    </nav>
+  );  
 }
