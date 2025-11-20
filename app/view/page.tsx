@@ -1,11 +1,64 @@
 "use client";
 
+import Sidebar from "@/components/Sidebar";
+import { Professions } from "@/components/sidebar/ProfessionCheckboxes";
 import Panzoom from "@panzoom/panzoom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Oval } from 'react-loader-spinner'
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Page() {
+  const [isLoading, setLoading] = useState<boolean>(false); // Boolean to store whether the image is being generated or shown
+  const [currentImage, setCurrentImage] = useState<string>("/sample.jpg"); // Sample image by default, then path to current map image.
+
   const panzoomRef = useRef<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
+
+  const handleConfirm = async (checkedBoxes: Professions, clusterValue: number) => {
+    setLoading(true);
+
+    try {
+      // Collect selected profession codes
+      const selectedCodes = Object.entries(checkedBoxes)
+        .filter(([_, v]) => v.selected)
+        .map(([code]) => code);
+
+      if (selectedCodes.length === 0) {
+        toast("Please select at least one profession.");
+        return;
+      }
+
+      toast("Selection confirmed. The image is being generated...");
+
+      // Build query string (comma-separated values)
+      const params = new URLSearchParams({
+        professions: selectedCodes.join(","),
+      });
+
+      // Call API route (GET or POST with query params — your route expects POST)
+      const res = await fetch(`/api/generateMap?${params.toString()}`, {
+        method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Server error");
+      }
+
+      console.log("Map generated:", data);
+
+      // Show result to user
+      toast("Image successfully generated!");
+      setCurrentImage("/generatedImages/" + selectedCodes.join(",") + ".png");
+
+    } catch (err: any) {
+      console.error(err);
+      toast("An error occurred: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const panzoomEl = panzoomRef.current;
@@ -61,29 +114,48 @@ export default function Page() {
   }, []);
 
   return (
-    <div
-      ref={viewportRef}
-      style={{
-        width: "100%",
-        height: "90vh",
-        border: "1px solid #ccc",
-        overflow: "hidden",
-        position: "relative",
-      }}
-    >
-      <div ref={panzoomRef} style={{ cursor: "grab" }}>
-        <img
-          src="/sample.jpg"
-          alt="Zoomable"
+    <div>
+      <Sidebar handleConfirm={handleConfirm}/>
+      <ToastContainer />
+      {
+        !isLoading &&
+        <div
+          ref={viewportRef}
           style={{
-            display: "block",
-            userSelect: "none",
-            width: "auto",
-            height: "auto",
-            pointerEvents: "none",
+            width: "100%",
+            height: "90vh",
+            border: "1px solid #ccc",
+            overflow: "hidden",
+            position: "relative",
           }}
-        />
-      </div>
-    </div>
+        >
+          <div ref={panzoomRef} style={{ cursor: "grab" }}>
+            <img
+              src={currentImage}
+              alt="Zoomable"
+              style={{
+                display: "block",
+                userSelect: "none",
+                width: "auto",
+                height: "auto",
+                pointerEvents: "none",
+              }}
+            />
+          </div>
+        </div>
+
+        || isLoading &&
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh"
+          }}
+        >
+          <Oval/>
+        </div>
+      }
+  </div>
   );
 }

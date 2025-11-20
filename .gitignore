@@ -43,5 +43,6 @@ next-env.d.ts
 data/voronoi_clipped.gpkg
 data/voronoi_plot.png
 .venv/
+public/generatedImages/
 
 deprecated

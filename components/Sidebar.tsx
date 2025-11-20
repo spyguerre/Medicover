@@ -8,17 +8,14 @@ import ConfirmButton from "./sidebar/ConfirmButton";
 import Stats from "./sidebar/Stats";
 import SidebarButton from "./sidebar/SidebarButton";
 
-export default function Sidebar() {
-  // Slider state
+export default function Sidebar({handleConfirm}: {
+  handleConfirm: (checkedBoxes: Professions, clusterValue: number) => void
+}
+) {
   const [checkedItems, setCheckedItems] = useState<Professions>({});
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
   const [sliderValue, setSliderValue] = useState(50); // The value input by the user, from 0 to 100
   const [clusterValue, setClusterValue] = useState<number>(0); // The computed cluster value with input slider value, from 0 to 10km
-
-  const handleConfirm = () => {
-    console.log("Confirmed items:", checkedItems, "Slider:", sliderValue);
-    alert("Selection confirmed!");
-  };
 
   const computeExpClusterValue: (x: number) => number = (x: number) => {
     const maxOutput = 10000;
@@ -65,7 +62,7 @@ export default function Sidebar() {
 
         <ClusterSlider sliderValue={sliderValue} setSliderValue={setSliderValue} clusterValue={clusterValue} />
   
-        <ConfirmButton handleConfirm={handleConfirm} />
+        <ConfirmButton handleConfirm={() => handleConfirm(checkedItems, clusterValue)} />
   
         <div style={{ marginTop: 12 }}>
           <Stats biggestArea={0} medianArea={0} meanArea={0} />

@@ -1,5 +1,7 @@
 "use client"
 
+import { Professions } from "./ProfessionCheckboxes"
+
 export default function ConfirmButton(
     {handleConfirm}: {
         handleConfirm: () => void
