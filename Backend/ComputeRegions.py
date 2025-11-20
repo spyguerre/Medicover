@@ -2,7 +2,7 @@
 ComputeRegions.py
 
 Usage example:
-    python ComputeRegions.py --db data/praticiens.db --regions data/regions.zip --metier n --out data/voronoi_clipped.gpkg
+    python backend/ComputeRegions.py --db data/praticiens.db --regions data/regions.zip --metier n --out data/voronoi_clipped.gpkg
 
 
 """
@@ -30,19 +30,24 @@ except Exception as e:
     )
 
 
-def read_praticiens_and_adresses(db_path: str, metier_id: int) -> pd.DataFrame:
+def read_praticiens_and_adresses(db_path: str, metier_ids: list) -> pd.DataFrame:
     """
-    Connect to the sqlite db, find praticiens with metier_id, then get their adresse coords.
+    Connect to the sqlite db, find praticiens with any of the metier_ids, 
+    then get their adresse coords.
     Returns a DataFrame with columns: praticien_id, adresse_id, latitude, longitude
     """
+    if not metier_ids:
+        raise ValueError("metier_ids list cannot be empty.")
+
     con = sqlite3.connect(db_path)
     try:
-        cur = con.cursor()
         # fetch praticien ids and adresse_ids
-        q = "SELECT rpps AS praticien_id, adresse_id FROM Praticien WHERE metier_id = ?"
-        praticien_df = pd.read_sql_query(q, con, params=(metier_id,))
+        placeholders = ','.join(['?']*len(metier_ids))
+        q = f"SELECT rpps AS praticien_id, adresse_id FROM Praticien WHERE metier_id IN ({placeholders})"
+        praticien_df = pd.read_sql_query(q, con, params=metier_ids)
+        
         if praticien_df.empty:
-            raise ValueError(f"No praticien found for metier_id={metier_id}")
+            raise ValueError(f"No praticien found for metier_ids={metier_ids}")
 
         # make sure adresse_id list is unique and not null
         adresse_ids = praticien_df['adresse_id'].dropna().unique().tolist()
@@ -50,7 +55,6 @@ def read_praticiens_and_adresses(db_path: str, metier_id: int) -> pd.DataFrame:
             raise ValueError("No adresse_id values found for selected praticiens.")
 
         # fetch addresses
-        # adjust column names if your address table uses different names
         q2 = f"SELECT adresse_id AS adresse_id, latitude, longitude FROM adresse WHERE adresse_id IN ({','.join(['?']*len(adresse_ids))})"
         adresse_df = pd.read_sql_query(q2, con, params=adresse_ids)
 
@@ -327,7 +331,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build Voronoi for praticiens of a given metier and clip to regions shapefile (zip).")
     parser.add_argument("--db", required=True, help="Path to sqlite database (e.g., database.db)")
     parser.add_argument("--regions", required=True, help="Path to zipped shapefile (e.g., regions.zip)")
-    parser.add_argument("--metier", required=True, type=int, help="metier_id to filter praticiens")
+    parser.add_argument("--metier", required=True, type=int,nargs="+", help="metier_id to filter praticiens")
     parser.add_argument("--out", required=False, default="voronoi_clipped.gpkg", help="Output path (.gpkg or .shp recommended)")
     parser.add_argument("--buffer", required=False, type=float, default=10000.0, help="Buffer distance (same units as regions CRS) used when capping infinite Voronoi faces")
     parser.add_argument("--dissolve", action='store_true', help="Dissolve intersections so result has one geometry per praticien_id")
