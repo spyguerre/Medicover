@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "./Logo";
 import ProfessionSelector from "./sidebar/ProfessionCheckboxes";
 import ClusterSlider from "./sidebar/ClusterSlider";
@@ -10,14 +10,27 @@ import SidebarButton from "./sidebar/SidebarButton";
 
 export default function Sidebar() {
   // Slider state
-  const [sliderValue, setSliderValue] = useState(50);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
+  const [sliderValue, setSliderValue] = useState(50); // The value input by the user, from 0 to 100
+  const [clusterValue, setClusterValue] = useState<number>(0); // The computed cluster value with input slider value, from 0 to 10km
 
   const handleConfirm = () => {
     console.log("Confirmed items:", checkedItems, "Slider:", sliderValue);
     alert("Selection confirmed!");
   };
+
+  const computeExpClusterValue: (x: number) => number = (x: number) => {
+    const maxOutput = 10000;
+    const k = 0.05;
+    const A = maxOutput / (Math.exp(k * 100) - 1);
+
+    return A * (Math.exp(k * x) - 1);
+  }
+
+  useEffect(() => { // Compute exponential cluster value knowing new sliderValue
+    setClusterValue(computeExpClusterValue(sliderValue));
+  }, [sliderValue]);
 
   return (
       showSidebar &&
@@ -50,7 +63,7 @@ export default function Sidebar() {
   
       <div style={{ marginTop: "auto", padding: 16, borderTop: "1px solid #ccc" }}>
 
-        <ClusterSlider sliderValue={sliderValue} setSliderValue={setSliderValue} />
+        <ClusterSlider sliderValue={sliderValue} setSliderValue={setSliderValue} clusterValue={clusterValue} />
   
         <ConfirmButton handleConfirm={handleConfirm} />
   
