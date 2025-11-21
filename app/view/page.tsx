@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 export default function Page() {
   const [isLoading, setLoading] = useState<boolean>(false); // Boolean to store whether the image is being generated or shown
-  const [currentImage, setCurrentImage] = useState<string>("/sample.jpg"); // Sample image by default, then path to current map image.
+  const [currentImage, setCurrentImage] = useState<string>("/generatedImages/60.png"); // Sample image by default, then path to current map image.
 
   const panzoomRef = useRef<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
@@ -51,6 +51,7 @@ export default function Page() {
       // Show result to user
       toast("Image successfully generated!");
       setCurrentImage("/generatedImages/" + selectedCodes.join(",") + ".png");
+      console.log(currentImage);
 
     } catch (err: any) {
       console.error(err);
@@ -111,10 +112,10 @@ export default function Page() {
     } else {
       img.onload = initPanzoom;
     }
-  }, []);
+  }, [currentImage]);
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <Sidebar handleConfirm={handleConfirm}/>
       <ToastContainer />
       {
@@ -122,14 +123,15 @@ export default function Page() {
         <div
           ref={viewportRef}
           style={{
-            width: "100%",
+            width: "80%",
+            margin: "auto",
             height: "90vh",
             border: "1px solid #ccc",
             overflow: "hidden",
             position: "relative",
           }}
         >
-          <div ref={panzoomRef} style={{ cursor: "grab" }}>
+          <div ref={panzoomRef} style={{ cursor: "grab", width: "70%" }}>
             <img
               src={currentImage}
               alt="Zoomable"
@@ -150,7 +152,8 @@ export default function Page() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "100vh"
+            height: "100vh",
+            margin: "auto"
           }}
         >
           <Oval/>
