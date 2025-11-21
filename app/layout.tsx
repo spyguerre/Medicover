@@ -11,8 +11,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <div className="layout">
-          <Sidebar />
-          <main className="content">{children}</main>
+          <main className="content">
+            {children}
+          </main>
         </div>
       </body>
     </html>

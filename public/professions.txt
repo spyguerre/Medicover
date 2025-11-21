@@ -1,69 +1,89 @@
-Pharmaciens
-Chirurgiens-Dentistes
-Sage-Femmes
-Infirmiers
-Masseur-Kinésithérapeutes
-Pédicure-Podologues
-Audioprothésistes
-Opticien-Lunetiers
-Orthoprothésistes
-Podo-Orthésistes
-Ocularistes
-Epithésistes
-Assistants dentaires
-Orthoptistes
-Diététiciens
-Ergothérapeutes
-Psychomotriciens
-Manipulateurs d'électroradiologie médicale
-Techniciens de laboratoire médical
-Ambulanciers
-Préparateurs en pharmacie
-Aide-soignants
-Auxiliaires de puériculture
-Conseiller en génétique
-Physiciens médical
-Médecin - chirurgie générale
-Médecin - chirurgie infantile
-Médecin - Chirurgie maxillo-faciale
-Médecin - Chirurgie orthopédique et traumatologie
-Médecin - Chirurgie plastique reconstructrice et esthétique
-Médecin - Chirurgie thoracique et cardio-vesculaire
-Médecin - Chirurgie urologique
-Médecin - Chirurgie vasculaire
-Médecin - Neurochirurgie
-Médecin - Allergologie
-Médecin - Anatomie et cytologie pathologiques
-Médecin - Anesthésie-réanimation
-Médecin - Biologie médicale
-Médecin - Cardiologie et maladies vasculaires
-Médecin - Dermatologie et vénéréologie
-Médecin - Endocrinologie et métabolisme
-Médecin - Gastro-entérologie et hépatologie
-Médecin - Génétique médicale
-Médecin - Gériatrie
-Médecin - Gynécologie médicale
-Médecin - Gynécologie-obstétrique
-Médecin - Hématologie
-Médecin - Médecine du travail
-Médecin - Médecine générale
-Médecin - Médecine interne
-Médecin - Médecine nucléaire
-Médecin - Médecine physique et de réadaptation
-Médecin - Néphrologie
-Médecin - Neurologie
-Médecin - Oncologie médicale
-Médecin - Oncologie radiothérapique
-Médecin - Ophtalmologie
-Médecin - Oto-rhino-laryngologie (ORL)
-Médecin - Pédiatrie
-Médecin - Pneumologie
-Médecin - Psychiatrie
-Médecin - Psychiatrie de l'enfant et de l'adolescent
-Médecin - Radiologie et imagerie médicale
-Médecin - Réanimation médicale
-Médecin - Rhumatologie
-Médecin - Santé publique et médecine sociale
-Médecin - Stomatologie
-Médecin - Médecine d'urgence
-Médecin - Médecine vasculaire
+10.0,Aucune spécialité
+10.42,Médecin - Psychiatrie (SM)
+10.08,Médecin - Chirurgie orthopédique et Traumatologie (SM)
+10.38,Médecin - Ophtalmologie (SM)
+10.48,Médecin - Rhumatologie (SM)
+10.15,Médecin - Dermatologie et Vénéréologie (SM)
+10.25,Médecin - Médecine du travail (SM)
+10.53,Médecin - Spécialiste en Médecine Générale (SM)
+10.26,Médecin - Qualifié en Médecine Générale (SM)
+10.44,Médecin - Radio-diagnostic (SM)
+10.12,Médecin - Chirurgie urologique (SM)
+10.07,Médecin - Chirurgie maxillo-faciale et Stomatologie (SM)
+10.04,Médecin - Cardiologie et maladies vasculaires (SM)
+10.51,Médecin - Gynéco-obstétrique et Gynéco méd opt Gyn-obs (SM)
+10.24,Médecin - Gastro-entérologie et hépatologie (SM)
+10.30,Médecin - Néphrologie (SM)
+10.40,Médecin - Pédiatrie (SM)
+10.54,Médecin - Médecine Générale (SM)
+10.01,Médecin - Anatomie et Cytologie pathologiques (SM)
+10.10,Médecin - Chirurgie plastique reconstruct et esthétique (SM)
+10.20,Médecin - Gynécologie-obstétrique (SM)
+10.02,Médecin - Anesthésie-réanimation (SM)
+10.49,Médecin - Santé publique et Médecine sociale (SM)
+10.61,Médecin - Médecine vasculaire (SM)
+10.16,Médecin - Endocrinologie et métabolisme (SM)
+10.36,Médecin - Oncologie opt médicale (SM)
+10.19,Médecin - Gynécologie médicale (SM)
+10.29,Médecin - Médecine physique et réadaptation (SM)
+10.31,Médecin - Neuro-chirurgie (SM)
+10.32,Médecin - Neurologie (SM)
+10.37,Médecin - Oncologie opt radiothérapie (SM)
+10.09,Médecin - Chirurgie infantile (SM)
+10.43,Médecin - Psychiatrie opt enfant et adolescent (SM)
+10.13,Médecin - Chirurgie vasculaire (SM)
+10.57,Médecin - Allergologie (SM)
+10.18,Médecin - Gériatrie (SM)
+10.41,Médecin - Pneumologie (SM)
+10.14,Médecin - Chirurgie viscérale et digestive (SM)
+10.03,Médecin - Biologie médicale (SM)
+10.34,Médecin - ORL et Chirurgie cervico-faciale (SM)
+10.39,Médecin - Oto-rhino-laryngologie (SM)
+10.27,Médecin - Médecine interne (SM)
+10.05,Médecin - Chirurgie générale (SM)
+10.56,Médecin - Chirurgie orale (SM)
+10.59,Médecin - Médecine d'urgence (SM)
+10.65,Médecin - Biologie médicale option hématologie et immunologie (SM)
+10.28,Médecin - Médecine nucléaire (SM)
+10.33,Médecin - Neuro-psychiatrie (SM)
+10.11,Médecin - Chirurgie thoracique et cardio-vasculaire (SM)
+10.46,Médecin - Médecine intensive-réanimation (SM)
+10.66,Médecin - Biologie médicale option agents infectieux (SM)
+10.45,Médecin - Radio-thérapie (SM)
+10.62,Médecin - Endocrinologie diabétologie nutrition (SM)
+10.64,Médecin - Biologie médicale option moléculaire génétique et pharmacologie (SM)
+10.23,Médecin - Hématologie opt Onco-hématologie (SM)
+10.06,Médecin - Chirurgie maxillo-faciale (SM)
+10.50,Médecin - Stomatologie (SM)
+10.67,Médecin - Biologie médicale option biologie de la reproduction (SM)
+10.22,Médecin - Hématologie opt Maladie du sang (SM)
+10.72,Médecin - Médecine interne et immunologie clinique (SM)
+10.58,Médecin - Maladies infectieuses et tropicales (SM)
+10.21,Médecin - Hématologie (SM)
+10.17,Médecin - Génétique médicale (SM)
+21,Pharmacien
+40,Chirurgien-Dentiste
+50,Sage-Femme
+60,Infirmier
+70,Masseur-Kinésithérapeute
+80,Pédicure-Podologue
+26,Audioprothésiste
+28,Opticien-Lunetier
+86,Orthoprothésiste
+87,Podo-Orthésiste
+88,Oculariste
+89,Épithésiste
+31,Assistant dentaire
+91,Orthophoniste
+94,Orthoptiste
+92,Diététicien
+96,Ergothérapeute
+98,Psychomotricien
+24,Manipulateur d'électroradiologie médicale
+25,Technicien de laboratoire médical
+27,Ambulancier
+30,Préparateur en pharmacie
+69,Aide-soignant
+95,Auxiliaire de puériculture
+32,Conseiller en génétique
+33,Physicien médical
