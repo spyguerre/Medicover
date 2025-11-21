@@ -296,7 +296,7 @@ def plot_voronoi_result(regions_gdf, voronoi_gdf, clipped_gdf, output_image=None
     Plot regions, voronoi cells and clipped results.
     Saves to output_image if provided.
     """
-    fig, ax = plt.subplots(figsize=(80, 80))
+    fig, ax = plt.subplots(figsize=(30, 30))
 
     # Base layer: regions
     regions_gdf.boundary.plot(ax=ax, color="black", linewidth=1.0, alpha=0.7)
